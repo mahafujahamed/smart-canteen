@@ -1,0 +1,103 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Order Status</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background: white;
+      padding: 30px 40px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      width: 400px;
+      text-align: center;
+    }
+    h2 {
+      margin-bottom: 20px;
+    }
+    .status {
+      font-size: 20px;
+      color: red;
+      display: none;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      text-align: left;
+      padding: 10px 0;
+      font-size: 18px;
+      border-bottom: 1px solid #ccc;
+    }
+    li.done::before {
+      content: "✅ ";
+      color: green;
+    }
+    .hidden { display: none; }
+    button {
+      padding: 10px 20px;
+      margin: 10px;
+      border: none;
+      background: #007bff;
+      color: white;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .btns { margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Track Your Order</h2>
+
+    <div id="statusRejected" class="status">❌ Sorry, your order was rejected by the canteen.</div>
+
+    <ul id="statusList" class="hidden">
+      <li id="stepAccepted">Accepted</li>
+      <li id="stepProcessing">Processing</li>
+      <li id="stepPickup">Ready for Pickup</li>
+    </ul>
+
+    <div class="btns">
+      <button onclick="showRejected()">Simulate Rejected</button>
+      <button onclick="simulateProgress()">Simulate Accepted Flow</button>
+    </div>
+  </div>
+
+  <script>
+    function showRejected() {
+      document.getElementById("statusRejected").style.display = "block";
+      document.getElementById("statusList").classList.add("hidden");
+    }
+
+    function simulateProgress() {
+      document.getElementById("statusRejected").style.display = "none";
+      document.getElementById("statusList").classList.remove("hidden");
+
+      const steps = ["stepAccepted", "stepProcessing", "stepPickup"];
+      let index = 0;
+
+      function markDone() {
+        if (index < steps.length) {
+          document.getElementById(steps[index]).classList.add("done");
+          index++;
+          setTimeout(markDone, 1000);
+        }
+      }
+
+      markDone();
+    }
+  </script>
+</body>
+</html>

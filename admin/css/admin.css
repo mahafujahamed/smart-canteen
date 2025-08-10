@@ -1,0 +1,12 @@
+/* simple admin styles */
+body { font-family: Arial, sans-serif; margin:0; background:#f2f4f7; color:#0b1220; }
+.admin-header { display:flex; justify-content:space-between; align-items:center; background:#0b1220; color:#fff; padding:0.75rem 1rem; }
+.admin-header a { color:#aee1dd; margin-left:1rem; text-decoration:none; }
+.admin-main { padding:1rem; max-width:1100px; margin:0 auto; display:grid; grid-template-columns:1fr; gap:1.5rem; }
+.card, form { background:#fff; padding:1rem; border-radius:8px; box-shadow:0 6px 18px rgba(2,6,23,0.06); }
+label { display:block; margin-bottom:0.6rem; }
+input[type="text"], input[type="number"], textarea { width:100%; padding:0.5rem; border:1px solid #e3e7ee; border-radius:6px; }
+button { background:#0b8f87; color:#fff; padding:0.5rem 0.8rem; border:0; border-radius:6px; cursor:pointer; }
+.muted { color:#6b7280; }
+.cart-item { display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px dashed #e6e8eb; }
+.right button { margin-left:6px; }

@@ -1,7 +1,7 @@
 // ---------- CONFIG ----------
 // Replace with your PHP host (do NOT include trailing /php)
 // EXAMPLE: https://smart-canteen-backend.example.com
-const PHP_HOST = 'https://your-php-host.com'; // <-- REPLACE THIS
+const PHP_HOST = 'https://sql301.infinityfree.com'; // <-- REPLACE THIS
 const API_BASE = PHP_HOST + '/php'; // don't change
 
 // ---------- utilities ----------

@@ -1,16 +1,15 @@
 <?php
-header('Content-Type: application/json');
-require_once __DIR__ . '/../../db.php';
+require_once __DIR__ . '/../headers.php';
+require_once __DIR__ . '/../db.php';
 session_start();
-if (empty($_SESSION['admin'])) { http_response_code(401); echo json_encode(['success'=>false]); exit; }
+if (empty($_SESSION['admin_id'])) { http_response_code(401); echo json_encode(['success'=>false]); exit; }
 
 $body = json_decode(file_get_contents('php://input'), true);
 $id = isset($body['id']) ? intval($body['id']) : 0;
 if (!$id) { echo json_encode(['success'=>false,'message'=>'Bad id']); exit; }
 
-// optional: fetch image name to unlink
 $stmt = $conn->prepare("SELECT image FROM menu_items WHERE id = ?");
-$stmt->bind_param('i',$id);
+$stmt->bind_param('i', $id);
 $stmt->execute();
 $stmt->bind_result($img); $stmt->fetch(); $stmt->close();
 

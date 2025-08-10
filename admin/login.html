@@ -1,36 +1,26 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <title>Admin Login — Smart Canteen</title>
-  <link rel="stylesheet" href="css/admin.css" />
-</head>
-<body class="admin-login">
-  <div class="card">
-    <h2>Admin Login</h2>
+<head><meta charset="utf-8"/><title>Admin Login</title><meta name="viewport" content="width=device-width,initial-scale=1"/></head>
+<link rel="stylesheet" href="/admin/css/admin.css">
+<body>
+  <div class="card" style="max-width:420px;margin:3rem auto;">
+    <h2>Staff Login</h2>
     <form id="loginForm">
-      <label>Username <input name="username" required /></label>
-      <label>Password <input type="password" name="password" required /></label>
+      <label>Username <input name="username" required></label>
+      <label>Password <input name="password" type="password" required></label>
       <button type="submit">Login</button>
       <p id="msg" class="muted"></p>
     </form>
   </div>
-
-  <script>
-    document.getElementById('loginForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const fd = new FormData(e.target);
-      const res = await fetch('../php/admin/login.php', {
-        method: 'POST',
-        body: fd
-      });
-      const data = await res.json();
-      if (data.success) {
-        window.location.href = 'dashboard.html';
-      } else {
-        document.getElementById('msg').textContent = data.message || 'Login failed';
-      }
-    });
-  </script>
+<script>
+document.getElementById('loginForm').addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  const res = await fetch('/php/admin/login.php', { method:'POST', body: fd });
+  const data = await res.json();
+  if (data.success) window.location.href = '/admin/dashboard.html';
+  else document.getElementById('msg').textContent = data.message || 'Login failed';
+});
+</script>
 </body>
 </html>

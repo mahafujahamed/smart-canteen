@@ -1,8 +1,8 @@
 <?php
-header('Content-Type: application/json');
-require_once __DIR__ . '/../../db.php';
+require_once __DIR__ . '/../headers.php';
+require_once __DIR__ . '/../db.php';
 session_start();
-if (empty($_SESSION['admin'])) { http_response_code(401); echo json_encode(['success'=>false,'message'=>'Unauthorized']); exit; }
+if (empty($_SESSION['admin_id'])) { http_response_code(401); echo json_encode(['success'=>false,'message'=>'Unauthorized']); exit; }
 
 $name = $_POST['name'] ?? '';
 $desc = $_POST['description'] ?? '';

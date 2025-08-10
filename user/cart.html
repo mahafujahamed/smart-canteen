@@ -3,107 +3,41 @@
 <head>
   <meta charset="utf-8" />
   <title>Cart — Smart Canteen</title>
-  <link rel="stylesheet" href="css/style.css">
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <header>
-    <h1>Smart Canteen</h1>
-    <a href="index.html">Menu</a>
+  <header class="site-header">
+    <div class="container">
+      <h1 class="brand">Smart Canteen</h1>
+      <nav><a href="index.html">Menu</a></nav>
+    </div>
   </header>
 
   <main class="container">
     <h2>Your Cart</h2>
     <div id="cartWrap"></div>
 
-    <div id="checkoutPanel" class="checkout-panel">
-      <label>
-        Student ID:
-        <input id="studentId" type="text" placeholder="S12345" />
+    <div id="checkoutPanel" class="checkout-panel" style="display:none;margin-top:1rem;">
+      <label>Student ID:
+        <input id="studentId" type="text" placeholder="S12345">
       </label>
+
+      <label>Pickup time:
+        <!-- datetime-local supported by modern browsers -->
+        <input id="pickupTime" type="datetime-local">
+      </label>
+
       <p>Total: ৳<span id="grandTotal">0</span></p>
-      <button id="placeOrderBtn">Place Order</button>
+      <button id="placeOrderBtn" class="btn primary">Place Order</button>
       <p id="orderMsg" class="muted"></p>
     </div>
   </main>
 
-  <script src="js/app.js"></script>
+  <script src="js/app.js" defer></script>
   <script>
-    // render cart on cart page
-    document.addEventListener('DOMContentLoaded', () => {
-      const cart = JSON.parse(localStorage.getItem('cart')) || [];
-      const wrap = document.getElementById('cartWrap');
-      const totalEl = document.getElementById('grandTotal');
-      const msg = document.getElementById('orderMsg');
-
-      function render() {
-        if (!cart.length) {
-          wrap.innerHTML = '<p>Your cart is empty. <a href="index.html">Browse menu</a></p>';
-          document.getElementById('checkoutPanel').style.display = 'none';
-          return;
-        }
-        document.getElementById('checkoutPanel').style.display = 'block';
-        wrap.innerHTML = cart.map(i => `
-          <div class="cart-item">
-            <div class="left">
-              <strong>${i.name}</strong>
-              <div>৳${i.price} × ${i.qty}</div>
-            </div>
-            <div class="right">
-              <button onclick="changeQty(${i.id}, -1)">−</button>
-              <button onclick="changeQty(${i.id}, 1)">+</button>
-              <button onclick="removeItem(${i.id})" class="del">Remove</button>
-            </div>
-          </div>
-        `).join('');
-        const total = cart.reduce((s, x) => s + x.price * x.qty, 0);
-        totalEl.textContent = total.toFixed(2);
-      }
-
-      // expose functions to global
-      window.changeQty = (id, delta) => {
-        const it = cart.find(x => x.id === id);
-        if (!it) return;
-        it.qty += delta;
-        if (it.qty <= 0) cart.splice(cart.indexOf(it), 1);
-        localStorage.setItem('cart', JSON.stringify(cart));
-        render();
-      };
-      window.removeItem = id => {
-        const idx = cart.findIndex(x => x.id === id);
-        if (idx >= 0) cart.splice(idx, 1);
-        localStorage.setItem('cart', JSON.stringify(cart));
-        render();
-      };
-
-      document.getElementById('placeOrderBtn').addEventListener('click', async () => {
-        const student_id = document.getElementById('studentId').value.trim() || null;
-        if (!cart.length) return alert('Cart empty');
-        document.getElementById('placeOrderBtn').disabled = true;
-        msg.textContent = 'Placing order...';
-
-        try {
-          const res = await fetch('../php/user/place-order.php', {
-            method: 'POST',
-            headers: {'Content-Type':'application/json'},
-            body: JSON.stringify({ items: cart, student_id })
-          });
-          const data = await res.json();
-          if (data.success) {
-            msg.textContent = 'Order placed! Order ID: ' + data.order_id;
-            localStorage.removeItem('cart');
-            setTimeout(()=> location.href = 'index.html', 2000);
-          } else {
-            msg.textContent = 'Error: ' + (data.message || 'unknown');
-          }
-        } catch (err) {
-          msg.textContent = 'Network error';
-        } finally {
-          document.getElementById('placeOrderBtn').disabled = false;
-        }
-      });
-
-      render();
-    });
+    // On cart page we reuse functions from app.js;
+    // app.js will automatically render cart contents on this page.
   </script>
 </body>
 </html>
